@@ -120,6 +120,7 @@
     </div>
     
     <script>
+        //Value.Display START
         let money = document.getElementById("money");
         let display = document.getElementById("display");
         function getCoffee(coffeName,price){
@@ -129,8 +130,9 @@
           }else{
             display.innerText = "Недостаточно средств";
           }
-        }
+        }////Value.Display OVER
         
+        //Сдача в монетах НАЧАЛО
         function getChange(num){
           let change = 0;
           if(num>=10) change = 10;
@@ -141,28 +143,30 @@
             console.log(change);
             getChange(num-change);
           }
-        }
-
+        }//Сдача в монетах КОНЕЧ
+        
+        //DragAndDrop START       
         let banknotes = document.querySelectorAll("[src$='RUB.jpg']"); // Коллекция (Как бы массив)
       for(let i=0; i<banknotes.length; i++){ // Перебираем коллекцию
         let banknote = banknotes[i]; // Записываем очередной элемент коллекции в переменную
         banknote.onmousedown = function(){
-          this.ondragstart = function(){return false;}
+          this.ondragstart = function(){return false;}//Отключение штатного DragAndDrop в браузере
           this.style.position = 'absolute';
           this.style.zIndex = 2;
+          this.style.transform = "rotate(90deg)"//Поворот купюры на 90 градусов
           function moveAt(event){
             banknote.style.top = (event.clientY-banknote.offsetHeight/2)+'px';
-            banknote.style.left = (event.clientX-banknote.offsetWidth/2)+'px';
+            banknote.style.left = (event.clientX-banknote.offsetWidth/2)+'px';    
           }
           document.addEventListener('mousemove',moveAt);
           this.onmouseup = function(){
             document.removeEventListener('mousemove',moveAt);
             this.style.zIndex = 1;
+            this.style.transform = "rotate(0deg)";
           }
         }
-      }
-        
-      
+      }//DragAndDrop OVER
+           
       </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
