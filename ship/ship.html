@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Самолёт</title>
+    <style>
+        body{
+            background-image: url(img/mountain.jpg);
+            -webkit-background-size: cover;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        #airplane{
+            position: absolute;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <img src="img/airplane.png" alt="Самолёт" id="airplane" width="200">
+    <script>
+        let airplane = document.getElementById("airplane");
+        let dir = true;
+        airplane.style.left = 0;
+        airplane.style.top = 0;
+        function moveAirplane(){
+            if(dir){
+                airplane.style.transform = "scale(-1,1)";
+                if(parseInt(airplane.style.left) >= window.innerWidth - airplane.width){
+                    dir = false;
+                }
+                
+                if(parseInt(airplane.style.left) >= 200 && parseInt(airplane.style.left) <= 300){
+                    airplane.style.top = parseInt(airplane.style.top) + 10 + 'px';
+                } else if(parseInt(airplane.style.left) >= 700 && parseInt(airplane.style.left) <= 800){
+                    airplane.style.top = parseInt(airplane.style.top) - 10 + 'px';
+                }
+                
+                airplane.style.left = parseInt(airplane.style.left) + 10 + 'px';
+                //airplane.style.left = parseInt(airplane.style.left) + airplane.width / 15 + 'px';
+            } else {
+                airplane.style.transform = "scale(1,1)";
+                if(parseInt(airplane.style.left) <= 0){
+                    dir = true;
+                }
+                airplane.style.left = parseInt(airplane.style.left) - 10 + 'px';
+                //airplane.style.left = parseInt(airplane.style.left) - airplane.width / 15 + 'px';
+            }
+            
+
+        }
+        setInterval(moveAirplane,20);
+    </script>
+</body>
+</html>
