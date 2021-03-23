@@ -38,11 +38,12 @@
 
         #display{
         width:300px;
-        height:150px;
-        background: navy;
+        height:auto;
+        background: black;
         color:white;
         border:5px groove DarkSlateGrey;
         text-align: center;
+        box-shadow: inset 0 0 15px;
       }
 
       .right{
@@ -102,34 +103,38 @@
     <div class="right">
         <div class="row my-3">
           <div class="col-sm-6">
-            <div id="display" class="p-3 text-center">
-              Внесите деньги и закажите напиток
+            <div id="display" class="p-3 text-center">          
+              <p id="displayInfo">Внесите деньги и закажите напиток</p>
+              <p>Баланс:<span id="displayBalance">0</span>руб.</p>
             </div>
           </div>
           <div class="col-sm-6 text-center">
-            <input id="money" type="text">
+            <input hidden id="money" type="text">
             <p><img id="bill_acc" src="img/bill_acc.png" alt=""></p>
           </div>
         </div>
       </div>
     </div>
     <div class="container mt-5">
-        <img src="img/50RUB.jpg" alt="50 RUB">
-        <img src="img/100RUB.jpg" alt="100 RUB">
-        <img src="img/500RUB.jpg" alt="500 RUB">
+        <img src="img/50RUB.jpg" data-value="50" alt="50 RUB">
+        <img src="img/100RUB.jpg" data-value="100" alt="100 RUB">
+        <img src="img/500RUB.jpg" data-value="500" alt="500 RUB">
     </div>
     
     <script>
         //Value.Display START
         let money = document.getElementById("money");
         let display = document.getElementById("display");
-        let bill_acc = document.getElementById("bill_acc")
+        let bill_acc = document.getElementById("bill_acc");
+        let displayInfo = document.getElementById("displayInfo");
+        let displayBalance = document.getElementById("displayBalance");
         function getCoffee(coffeName,price){
           if(+money.value>=price){
             money.value = +money.value-price;
-            display.innerText = "Кофе "+coffeName+" готов";
+            displayBalance.innerText = money.value;
+            displayInfo.innerText = "Кофе "+coffeName+" готов";
           }else{
-            display.innerText = "Недостаточно средств";
+            displayInfo.innerText = "Недостаточно средств";
           }
         }////Value.Display OVER
         
@@ -164,8 +169,20 @@
           document.addEventListener('mousemove',moveAt);
           this.onmouseup = function(){
             document.removeEventListener('mousemove',moveAt);
+            let bill_acc_top = bill_acc.getBoundingClientRect().top; //Верх купюроприемника
+            let bill_acc_bottom = bill_acc.getBoundingClientRect().bottom - (bill_acc.getBoundingClientRect().height/3*2);  //Низ купюроприемника
+            let bill_acc_left = bill_acc.getBoundingClientRect().left; //Левая сторона купюроприемника
+            let bill_acc_right = bill_acc.getBoundingClientRect().right;
+            let banknote_top = this.getBoundingClientRect().top;  //Верх купюры
+            let banknote_left = this.getBoundingClientRect().left;  //Левая сторона купюры
+            let banknote_right = this.getBoundingClientRect().right;
             this.style.transform = "rotate(0deg)";
-          }
+            if(bill_acc_top<banknote_top && bill_acc_bottom>banknote_top && bill_acc_left<banknote_left && bill_acc_right>banknote_right){
+              money.value = (+money.value)+(+this.dataset.value);
+              displayBalance.innerText = money.value;
+              this.hidden = true;
+            }
+          }    
         }
       }//DragAndDrop OVER
            
@@ -175,3 +192,5 @@
 
 </body>
 </html>
+
+Зачем дважды прописывать (displayBalance.innerText = money.value;) строки 133 и 181?
