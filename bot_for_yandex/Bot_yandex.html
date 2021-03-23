@@ -52,7 +52,7 @@ if(yandex_button!=undefined){
     }
     let nextlink = "a.link.link_theme_none.link_target_serp.pager__item.pager__item_kind_next.i-bem";
     if(nextYandexPage && currentYandexPage<11) setTimeout(()=>{document.getElementById("pnnext").click()},1500);
-    else if(currentYandexPage == 11) location.href = "https://www.google.com/";
+    else if(currentYandexPage == 11) location.href = "https://yandex.ru";
 }else{ // Мы находимся на найденом сайте
     setInterval(()=>{
         if(Math.random()>=0.8) location.href = "https://yandex.ru";
